@@ -44,13 +44,14 @@ public class AuthorService {
     public List<Author> findAuthorsWithMoreThan3Books(){
         return authorRepository.findAll().stream().filter(author -> author.getBooks().size()>3).collect(Collectors.toList());
     }
-    /*
-    /* TASK 2 b) Returns all the books from an author who has a last name that starts with a given letter
+
+    /* TASK 2 b) Returns all the books from an author who has a last name that starts with a given letter */
     public List<List<Book>> findAllBooksByAuthorsName(String c){
-        List<Author> authors = authorRepository.findAll().stream().filter(author -> author.getLastName().startsWith(c))
+        List<Author> authors = authorRepository.findAll().stream().filter(author -> author.getLastName().toUpperCase().startsWith(c.toUpperCase()))
                 .collect(Collectors.toList());
         return  authors.stream()
                 .map(author -> author.getBooks())
                 .collect(Collectors.toList());
-    }*/
+    }
+
 }

@@ -1,5 +1,7 @@
 package JavaGraduates2021test.BooksApp.BooksApp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity(name="books")
@@ -14,8 +16,9 @@ public class Book {
     private Long ISBN;
     private int publicationYear;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id")
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "AUTHOR_ID", referencedColumnName = "ID")
     private Author author;
 
     public Book() {

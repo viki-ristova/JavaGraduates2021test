@@ -19,6 +19,7 @@ public class BookService {
     public BookService(BookRepository bookRepository){
         this.bookRepository=bookRepository;
     }
+    /* TASK 3 a) creating a book (PrintCopy or Ebook) */
     public Book createBook(String title, long isbn,int publicationYear){
         Book book = new Book(title,isbn,publicationYear);
         bookRepository.save(book);
@@ -33,10 +34,9 @@ public class BookService {
     public List<Book> findAllBooksChronological(){
         return bookRepository.findAll().stream().sorted(Comparator.comparingInt(Book::getPublicationYear)).collect(Collectors.toList());
     }
-    /* TASK 2 b) Returns all the books from an author who has a last name that starts with a given letter */
-    public List<Book> findAllBooksByAuthorsName(String c){
-        return bookRepository.findAll().stream().filter(b->b.getAuthor().getLastName().startsWith(c)).collect(Collectors.toList());
-    }
+    /* TASK 2 b) Returns all the books from an author who has a last name that starts with a given letter is moved in authorService*/
+
+
     /* TASK 2 d) Returns oldest book */
     public Optional<Book> findOldestBook(){
         return bookRepository.findAll().stream().sorted(Comparator.comparingInt(Book::getPublicationYear)).findFirst();
@@ -45,7 +45,7 @@ public class BookService {
     public Optional<Book> findNewestBook(){
         return bookRepository.findAll().stream().sorted(Comparator.comparingInt(Book::getPublicationYear).reversed()).findFirst();
     }
-
+    /* TASK 3 b) editing a book (PrintCopy or Ebook) */
     public Optional<Book> updateBook(Long bookId, Book book){
         return bookRepository.findAll().stream()
                 .filter(b -> b.getISBN().equals(bookId))
@@ -53,11 +53,22 @@ public class BookService {
                 .findFirst();
 
     }
+    /* TASK 3 v) Delete request for deleting a book by its isbn identification number */
     public void deleteBook(Long bookId){
         bookRepository.deleteById(bookId);
     }
 
     public Optional<Book> findBookByIsbn(Long id) {
         return bookRepository.findById(id);
+    }
+
+    /* Task 2 v) Returns all of the authors with books published in the same
+    decade when a given author is born
+    */
+    public List<Book> getBooksForGivenAuthorBirthDecade(int year){
+        int decade = year < 2000 ? (year/10 * 10 - 1900) : (year / 10 * 10);
+        return bookRepository.findAll().stream()
+                .filter(book -> ((book.getPublicationYear() > decade) && (book.getPublicationYear() < decade+10)))
+                .collect(Collectors.toList());
     }
 }

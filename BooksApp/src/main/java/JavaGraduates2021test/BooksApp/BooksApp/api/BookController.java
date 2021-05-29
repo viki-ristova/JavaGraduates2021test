@@ -54,9 +54,9 @@ public class BookController {
     }
 
     @GetMapping("/api/authors/{letter}")
-    public List<Book> findBooksByAuthorLetter(@PathVariable String letter) {
-        return bookService.findAllBooksByAuthorsName(letter);
-        //return authorService.findAllBooksByAuthorsName(letter);
+    public List<List<Book>> findBooksByAuthorLetter(@PathVariable String letter) {
+        //return bookService.findAllBooksByAuthorsName(letter);
+        return authorService.findAllBooksByAuthorsName(letter);
     }
 
     /* TASK 3 v) Delete request for deleting a book by its isbn identification number */

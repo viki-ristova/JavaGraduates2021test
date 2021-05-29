@@ -1,5 +1,7 @@
 package JavaGraduates2021test.BooksApp.BooksApp.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,7 +16,8 @@ public class Author {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
-    @OneToMany
+
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private List<Book> books;
 
     public Author(String name, String lastName, int birthYear) {
