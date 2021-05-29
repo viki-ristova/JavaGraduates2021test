@@ -1,7 +1,63 @@
 package JavaGraduates2021test.BooksApp.BooksApp.service;
 
-public class BookService {
-    void PrintBooksByYear(){
+import JavaGraduates2021test.BooksApp.BooksApp.model.Book;
+import JavaGraduates2021test.BooksApp.BooksApp.repository.BookRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+@Service
+public class BookService {
+
+    private BookRepository bookRepository;
+
+    @Autowired
+    public BookService(BookRepository bookRepository){
+        this.bookRepository=bookRepository;
+    }
+    public Book createBook(String title, long isbn,int publicationYear){
+        Book book = new Book(title,isbn,publicationYear);
+        bookRepository.save(book);
+        return book;
+    }
+    public List<Book> findBooksByAuthorId(Long authorId){
+        return bookRepository.findAllByAuthorId(authorId);
+
+    }
+
+    /* TASK 2 a) Returns all books (Ebooks, PrintCopy) chronologically, oldest first */
+    public List<Book> findAllBooksChronological(){
+        return bookRepository.findAll().stream().sorted(Comparator.comparingInt(Book::getPublicationYear)).collect(Collectors.toList());
+    }
+    /* TASK 2 b) Returns all the books from an author who has a last name that starts with a given letter */
+    public List<Book> findAllBooksByAuthorsName(String c){
+        return bookRepository.findAll().stream().filter(b->b.getAuthor().getLastName().startsWith(c)).collect(Collectors.toList());
+    }
+    /* TASK 2 d) Returns oldest book */
+    public Optional<Book> findOldestBook(){
+        return bookRepository.findAll().stream().sorted(Comparator.comparingInt(Book::getPublicationYear)).findFirst();
+    }
+    /* TASK 2 d) Returns newest book */
+    public Optional<Book> findNewestBook(){
+        return bookRepository.findAll().stream().sorted(Comparator.comparingInt(Book::getPublicationYear).reversed()).findFirst();
+    }
+
+    public Optional<Book> updateBook(Long bookId, Book book){
+        return bookRepository.findAll().stream()
+                .filter(b -> b.getISBN().equals(bookId))
+                .peek(b -> b.setTitle(book.getTitle()))
+                .findFirst();
+
+    }
+    public void deleteBook(Long bookId){
+        bookRepository.deleteById(bookId);
+    }
+
+    public Optional<Book> findBookByIsbn(Long id) {
+        return bookRepository.findById(id);
     }
 }
