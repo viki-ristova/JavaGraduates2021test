@@ -1,11 +1,9 @@
 package JavaGraduates2021test.BooksApp.BooksApp.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
 
-//@OneToMany("Book")
 @Entity
 public class Author {
     private String name;

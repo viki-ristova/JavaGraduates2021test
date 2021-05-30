@@ -1,0 +1,81 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Books</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/bootstrap.min.css" media="screen"/>
+    <style>
+        .navigation-order{
+            margin-bottom: 30px;
+        }
+        .jumbotron-billboard {
+            margin-bottom: 0px;
+            opacity: 1;
+            color: #fff;
+            background: #000 url("/books.jpg") center center;
+            width: 100%;
+            height: 25%;
+            background-size: cover;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/header :: header"/>
+    <div class="jumbotron jumbotron-billboard">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h4 style="color: white">A place for reading books.</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="container">	<div class="row">
+    <div class="col-md-12">
+        <h3> List of Books ordered by publication year </h3>
+    </div>
+</div>
+    <div class="row">
+        <div class="col-md-6">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>ISBN</th>
+                        <th>Year of publication</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="book : ${books}">
+                        <td><span th:text="${book.title}"> title </span></td>
+                        <td><span th:text="${book.ISBN}"> ISBN </span></td>
+                        <td><span th:text="${book.publicationYear}"> publicatonYear </span></td>
+                        <td>
+                            <a th:href="@{/edit/{isbn}(isbn=${book.ISBN})}"
+                               class="btn btn-warning">
+                                Edit Book
+                            </a>
+                        </td>
+                        <td>
+                            <a th:href="@{/delete/{isbn}(isbn=${book.ISBN})}"
+                               class="btn btn-danger">
+                                Delete Book
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+        </div>
+        <div class="col-md-6">
+            <a class="btn btn-success" href="#" th:href="@{/edit}"> Create Book </a>
+            <a class="btn btn-info" href="#" th:href="@{/authors}" > Show authors with books  </a>
+            <a class="btn btn-link" href="#" th:href="@{/search}" > Find books by author's last name</a>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

@@ -6,13 +6,15 @@ import JavaGraduates2021test.BooksApp.BooksApp.service.AuthorService;
 import JavaGraduates2021test.BooksApp.BooksApp.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-@RestController
+@Controller
 public class BookController {
 
     private AuthorService authorService;
@@ -70,4 +72,48 @@ public class BookController {
     public Optional<Book> updateBook(@RequestBody Book book, @PathVariable Long isbn) {
         return bookService.updateBook(isbn, book);
     }
+
+    @GetMapping("/")
+    public ModelAndView showBooks() {
+        List<Book> books = bookService.findAllBooksChronological();
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("books", books);
+
+        return new ModelAndView("index", params);
+    }
+    @GetMapping("/authors")
+    public ModelAndView showAuthors() {
+        List<Author> authors = authorService.findAuthors();
+        Map<String, Object> params = new HashMap<>();
+        params.put("authors", authors);
+
+        return new ModelAndView("authors", params);
+    }
+    @RequestMapping(path = "/delete/{isbn}")
+    public String deleteBookByIsbn(Model model, @PathVariable("isbn") Long isbn)
+    {
+        bookService.deleteBook(isbn);
+        return "redirect:/";
+    }
+
+    @RequestMapping(path = {"/edit", "/edit/{isbn}"})
+    public String editBookByIsbn(Model model, @PathVariable("isbn") Optional<Long> isbn)
+    {
+        if (isbn.isPresent()) {
+            Book book = bookService.getBookByIsbn(isbn.get());
+            model.addAttribute("book", book);
+        } else {
+            model.addAttribute("book", new Book());
+        }
+        return "create-edit-book";
+    }
+    @RequestMapping(path = "/createBook", method = RequestMethod.POST)
+    public String createOrUpdateBook(Book book)
+    {
+        bookService.createOrUpdateBook(book);
+        return "redirect:/";
+    }
+
+
 }

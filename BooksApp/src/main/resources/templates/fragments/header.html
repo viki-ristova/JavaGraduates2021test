@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:fragment="header-css">
+        <!-- this is header-css -->
+        <link rel="stylesheet" type="text/css"
+              href="webjars/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+        <link rel="stylesheet" th:href="@{/css/main.css}"
+              href="../../../static/css/main.css" />
+    </div>
+    <style>
+        .bela{
+            background-color: ghostwhite;
+        }
+        .text{
+            color:black;
+        }
+    </style>
+</head>
+<body>
+<div th:fragment="header" class="bela">
+    <!-- this is header -->
+    <nav class="bela">
+        <div class="container">
+            <div>
+                <a class="navbar-brand" th:href="@{/}">Book Application</a>
+            </div>
+        </div>
+    </nav>
+</div>
+
+</body>
+</html>
