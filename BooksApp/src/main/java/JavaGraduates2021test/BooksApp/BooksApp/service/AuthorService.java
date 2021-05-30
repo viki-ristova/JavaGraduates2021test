@@ -54,4 +54,8 @@ public class AuthorService {
                 .collect(Collectors.toList());
     }
 
+    public List<Author> findAllAuthorsByLastName(String keyword) {
+        return authorRepository.findAll().stream().filter(author -> author.getLastName().toUpperCase().startsWith(keyword.toUpperCase()))
+                .collect(Collectors.toList());
+    }
 }

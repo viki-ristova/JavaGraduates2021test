@@ -5,6 +5,7 @@ import JavaGraduates2021test.BooksApp.BooksApp.model.Book;
 import JavaGraduates2021test.BooksApp.BooksApp.service.AuthorService;
 import JavaGraduates2021test.BooksApp.BooksApp.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -114,6 +115,13 @@ public class BookController {
         bookService.createOrUpdateBook(book);
         return "redirect:/";
     }
+    @RequestMapping("/search")
+    public String filterBooksByAuthorsLastName(Model model, @Param("keyword") String keyword) {
+        List<Author> listAuthors = authorService.findAllAuthorsByLastName(keyword);
+        model.addAttribute("authors", listAuthors);
+        model.addAttribute("keyword", keyword);
 
+        return "authors";
+    }
 
 }
