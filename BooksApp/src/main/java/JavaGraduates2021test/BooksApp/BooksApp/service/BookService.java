@@ -1,5 +1,6 @@
 package JavaGraduates2021test.BooksApp.BooksApp.service;
 
+import JavaGraduates2021test.BooksApp.BooksApp.model.Author;
 import JavaGraduates2021test.BooksApp.BooksApp.model.Book;
 import JavaGraduates2021test.BooksApp.BooksApp.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,13 +41,13 @@ public class BookService {
 
 
     /* TASK 2 d) Returns oldest book */
-    public Optional<Book> findOldestBook() {
-        return bookRepository.findAll().stream().sorted(Comparator.comparingInt(Book::getPublicationYear)).findFirst();
+    public Book findOldestBook() {
+        return bookRepository.findAll().stream().sorted(Comparator.comparingInt(Book::getPublicationYear)).findFirst().get();
     }
 
     /* TASK 2 d) Returns newest book */
-    public Optional<Book> findNewestBook() {
-        return bookRepository.findAll().stream().sorted(Comparator.comparingInt(Book::getPublicationYear).reversed()).findFirst();
+    public Book findNewestBook() {
+        return bookRepository.findAll().stream().sorted(Comparator.comparingInt(Book::getPublicationYear).reversed()).findFirst().get();
     }
 
     /* TASK 3 b) editing a book (PrintCopy or Ebook) */
@@ -70,12 +71,17 @@ public class BookService {
     /* Task 2 v) Returns all of the authors with books published in the same
     decade when a given author is born
     */
-    public List<Book> getBooksForGivenAuthorBirthDecade(int year) {
-        int decade = year < 2000 ? (year / 10 * 10 - 1900) : (year / 10 * 10);
-        return bookRepository.findAll().stream()
-                .filter(book -> ((book.getPublicationYear() > decade) && (book.getPublicationYear() < decade + 10)))
-                .collect(Collectors.toList());
+    private static int getDecade(int year)
+    {
+        return year < 2000 ? (year/10 * 10 - 1900) : (year / 10 * 10);
     }
+    public List<Author> getBooksForGivenAuthorBirthDecade(int year) {
+        List<Book> bookList = bookRepository.findAll().stream()
+                .filter(book -> (getDecade(book.getPublicationYear())) == getDecade(year))
+                        .collect(Collectors.toList());
+        return bookList.stream().map(book -> book.getAuthor()).collect(Collectors.toList());
+    }
+
 
     public Book getBookByIsbn(Long isbn) {
         return bookRepository.getById(isbn);

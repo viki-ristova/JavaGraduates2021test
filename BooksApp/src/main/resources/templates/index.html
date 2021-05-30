@@ -73,6 +73,37 @@
             <a class="btn btn-success" href="#" th:href="@{/edit}"> Create Book </a>
             <a class="btn btn-info" href="#" th:href="@{/authors}" > Show authors with books  </a>
         </div>
+        <br/>
+        <div class="col-md-6">
+            <h3>Statistics about the books</h3>
+            <h6>Oldest book published:</h6>
+            <label th:text="${oldest.title} + ' in year ' + ${oldest.publicationYear}"></label>
+            <h6>Newest book published:</h6>
+            <label th:text="${newest.title} + ' in year ' + ${newest.publicationYear}"></label>
+            <h6>Authors with 3 or more books:</h6>
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th></th>
+                    <th>Books</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="author : ${authors}">
+                    <td><span th:text="${author.name}"></span></td>
+                    <td><span th:text="${author.lastName}"> </span></td>
+                    <td><th:block th:each="book : ${author.books}">
+                        <div th:text="${book.title}"></div>
+                    </th:block></td>
+                </tr>
+                </tbody>
+            </table>
+            <h6>Authors of the Books published in the same decade as the birth year of Backman - 1981:</h6>
+            <th:block th:each="author : ${decade}">
+                <div th:text="${author.Name} + ' ' +${author.lastName}"></div>
+            </th:block>
+        </div>
     </div>
 </div>
 </body>

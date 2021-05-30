@@ -74,14 +74,15 @@ public class BookController {
         return bookService.updateBook(isbn, book);
     }
 
-    @GetMapping("/")
-    public ModelAndView showBooks() {
-        List<Book> books = bookService.findAllBooksChronological();
+    @RequestMapping(value = "/",method = RequestMethod.GET)
+    public String showBooks(Model model){
 
-        Map<String, Object> params = new HashMap<>();
-        params.put("books", books);
-
-        return new ModelAndView("index", params);
+        model.addAttribute("books", bookService.findAllBooksChronological());
+        model.addAttribute("oldest",bookService.findOldestBook());
+        model.addAttribute("newest",bookService.findNewestBook());
+        model.addAttribute("authors",authorService.findAuthorsWithMoreThan3Books());
+        model.addAttribute("decade",bookService.getBooksForGivenAuthorBirthDecade(1981));
+        return "index";
     }
     @GetMapping("/authors")
     public ModelAndView showAuthors() {
