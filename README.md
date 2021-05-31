@@ -6,6 +6,8 @@ showing the data on the screen with Thymeleaf.
 
 ### The application starts at http://localhost:8080/
 #### The database can be accessed at http://localhost:8080/h2-console/
+with JDBC URL:jdbc:h2:mem:testdb 
+and User Name: sa
 ### *Note: This solution uses Java 11 (11.0.1 jdk)
 ### Task 1:
 
