@@ -1,13 +1,13 @@
 # JavaGraduates2021test
-Books application 
+### Books application 
 
 The suggested solution for the JavaGraduates2021Test challenge is a Spring Boot Application that uses H2 in-memory database, and the interaction with the user is made through
 showing the data on the screen with Thymeleaf.
 
-## The application starts at http://localhost:8080/
-### The database can be accessed at http://localhost:8080/h2-console/
+### The application starts at http://localhost:8080/
+#### The database can be accessed at http://localhost:8080/h2-console/
 ### *Note: This solution uses Java 11 (11.0.1 jdk)
-##### Task 1:
+### Task 1:
 
 a)	 This task’s challenge was modeled with inheritance. The two classes PrintBook and Ebook inherit from the Book class. 
 The challenge that appeared while solving this task was the fact that relational databases don’t have a straightforward way to map class hierarchies onto database tables. 
@@ -21,7 +21,7 @@ this also means that we can no longer use NOT NULL constraints on sub-class enti
 
 b)	This part of the task is modeled with a simple one-to-many relationship between the author and book entities. (Every book has only one author, and an author can be an author of more than one book.) The way to overcome the challenge of infinite recursion cycle is to simply ignore one of the sides of the relationship. In this case, it can be in either way but here the author property in the book class is ignored with the @JsonIgnore annotation.
 
-##### Task 2:
+### Task 2:
 The task 2 states that there should be books and authors inserted as data in the application. 
 This application uses an in-memory database (H2) and Hibernate for creating the database schema. 
 The data is inserted with data.sql file in the resources package. 
@@ -43,7 +43,7 @@ than 3 books saved in the data layer of this application: Daniel Kahneman.
 
 d)	 The outcome of the functions for finding oldest and newest book can be seen in the Statistic about the books section on the index page. 
 
-##### Task 3:
+### Task 3:
 a) There is a button Create Book that is followed by a form with three necessary fields Title, isbn and publication year for preserving the book in the database.
 
 b) The option to edit a book is possible with an Edit button in a column within the row of the book we want to edit. After clicking the button Edit the application context 
