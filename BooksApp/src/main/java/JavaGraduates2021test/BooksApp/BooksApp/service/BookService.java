@@ -37,8 +37,6 @@ public class BookService {
     public List<Book> findAllBooksChronological() {
         return bookRepository.findAll().stream().sorted(Comparator.comparingInt(Book::getPublicationYear)).collect(Collectors.toList());
     }
-    /* TASK 2 b) Returns all the books from an author who has a last name that starts with a given letter is moved in authorService*/
-
 
     /* TASK 2 d) Returns oldest book */
     public Book findOldestBook() {

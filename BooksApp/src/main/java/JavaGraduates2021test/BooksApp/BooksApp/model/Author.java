@@ -15,7 +15,7 @@ public class Author {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(cascade=CascadeType.ALL,mappedBy = "author", fetch = FetchType.EAGER)
     private List<Book> books;
 
     public Author(String name, String lastName, int birthYear) {

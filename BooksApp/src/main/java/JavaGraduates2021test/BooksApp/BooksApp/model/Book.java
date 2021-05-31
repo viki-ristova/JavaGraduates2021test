@@ -17,7 +17,7 @@ public class Book {
     private int publicationYear;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.ALL)
     @JoinColumn(name = "AUTHOR_ID", referencedColumnName = "ID")
     private Author author;
 

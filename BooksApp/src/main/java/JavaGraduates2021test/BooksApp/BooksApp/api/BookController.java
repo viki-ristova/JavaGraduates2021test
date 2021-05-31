@@ -43,7 +43,7 @@ public class BookController {
 
         return new ModelAndView("authors", params);
     }
-    @DeleteMapping(path = "/delete/{isbn}")
+    @RequestMapping(path = "/delete/{isbn}")
     public String deleteBookByIsbn(Model model, @PathVariable("isbn") Long isbn)
     {
         bookService.deleteBook(isbn);
